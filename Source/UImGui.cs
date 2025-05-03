@@ -202,40 +202,40 @@ namespace UImGui
 			if (RenderUtility.IsUsingHDRP())
 				return; // skip update call in hdrp
 
-            UImGuiUtility.SetCurrentContext(_context);
-            ImGuiIOPtr io = ImGui.GetIO();
+			UImGuiUtility.SetCurrentContext(_context);
+			ImGuiIOPtr io = ImGui.GetIO();
 
-            Constants.PrepareFrameMarker.Begin(this);
-            _context.TextureManager.PrepareFrame(io);
-            _platform.PrepareFrame(io, _camera.pixelRect);
-            ImGui.NewFrame();
+			Constants.PrepareFrameMarker.Begin(this);
+			_context.TextureManager.PrepareFrame(io);
+			_platform.PrepareFrame(io, _camera.pixelRect);
+			ImGui.NewFrame();
 #if !UIMGUI_REMOVE_IMGUIZMO
 			ImGuizmoNET.ImGuizmo.BeginFrame();
 #endif
-            Constants.PrepareFrameMarker.End();
+			Constants.PrepareFrameMarker.End();
 
-            Constants.LayoutMarker.Begin(this);
-            try
-            {
-                if (_doGlobalEvents)
-                {
-                    UImGuiUtility.DoLayout(this);
-                }
+			Constants.LayoutMarker.Begin(this);
+			try
+			{
+				if (_doGlobalEvents)
+				{
+					UImGuiUtility.DoLayout(this);
+				}
 
-                Layout?.Invoke(this);
-            }
-            finally
-            {
-                ImGui.Render();
-                Constants.LayoutMarker.End();
-            }
+				Layout?.Invoke(this);
+			}
+			finally
+			{
+				ImGui.Render();
+				Constants.LayoutMarker.End();
+			}
 
-            if (_isChangingCamera)
-            {
-                _isChangingCamera = false;
-                Reload();
-            }
-        }
+			if (_isChangingCamera)
+			{
+				_isChangingCamera = false;
+				Reload();
+			}
+		}
 
 		private void SetRenderer(IRenderer renderer, ImGuiIOPtr io)
 		{
