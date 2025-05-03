@@ -28,7 +28,7 @@ namespace UImGui.Renderer
 			new VertexAttributeDescriptor(VertexAttribute.Position , VertexAttributeFormat.Float32, 2), // Position.
 			new VertexAttributeDescriptor(VertexAttribute.TexCoord0, VertexAttributeFormat.Float32, 2), // UV.
 			new VertexAttributeDescriptor(VertexAttribute.TexCoord1, VertexAttributeFormat.UInt32 , 1), // Color.
-        };
+		};
 
 		private Material _material;
 		private Mesh _mesh;
@@ -83,7 +83,7 @@ namespace UImGui.Renderer
 			}
 		}
 
-		public void RenderDrawLists(CommandBuffer commandBuffer, ImDrawDataPtr drawData)
+		public void RenderDrawLists(RasterCommandBuffer commandBuffer, ImDrawDataPtr drawData)
 		{
 			Vector2 fbOSize = drawData.DisplaySize * drawData.FramebufferScale;
 
@@ -171,7 +171,7 @@ namespace UImGui.Renderer
 			_mesh.UploadMeshData(false);
 		}
 
-		private void CreateDrawCommands(CommandBuffer commandBuffer, ImDrawDataPtr drawData, Vector2 fbSize)
+		private void CreateDrawCommands(RasterCommandBuffer commandBuffer, ImDrawDataPtr drawData, Vector2 fbSize)
 		{
 			IntPtr prevTextureId = IntPtr.Zero;
 			Vector4 clipOffset = new Vector4(drawData.DisplayPos.x, drawData.DisplayPos.y,

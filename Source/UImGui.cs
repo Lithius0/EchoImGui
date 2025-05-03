@@ -1,4 +1,5 @@
 using ImGuiNET;
+using System;
 using UImGui.Assets;
 using UImGui.Events;
 using UImGui.Platform;
@@ -15,7 +16,6 @@ namespace UImGui
 		private Context _context;
 		private IRenderer _renderer;
 		private IPlatform _platform;
-		private CommandBuffer _renderCommandBuffer;
 
 		[SerializeField]
 		private Camera _camera = null;
@@ -82,8 +82,6 @@ namespace UImGui
 
 		private bool _isChangingCamera = false;
 
-		public CommandBuffer CommandBuffer => _renderCommandBuffer;
-
 		#region Events
 		public event System.Action<UImGui> Layout;
 		public event System.Action<UImGui> OnInitialize;
@@ -149,20 +147,6 @@ namespace UImGui
 				Fail(nameof(_renderFeature));
 			}
 
-			_renderCommandBuffer = RenderUtility.GetCommandBuffer(Constants.UImGuiCommandBuffer);
-
-			if (RenderUtility.IsUsingURP())
-			{
-#if HAS_URP
-				_renderFeature.Camera = _camera;
-#endif
-				_renderFeature.CommandBuffer = _renderCommandBuffer;
-			}
-			else if (!RenderUtility.IsUsingHDRP())
-			{
-				_camera.AddCommandBuffer(CameraEvent.AfterEverything, _renderCommandBuffer);
-			}
-
 			UImGuiUtility.SetCurrentContext(_context);
 
 			ImGuiIOPtr io = ImGui.GetIO();
@@ -206,31 +190,6 @@ namespace UImGui
 			_context.TextureManager.Shutdown();
 			_context.TextureManager.DestroyFontAtlas(io);
 
-			if (RenderUtility.IsUsingURP())
-			{
-				if (_renderFeature != null)
-				{
-#if HAS_URP
-					_renderFeature.Camera = null;
-#endif
-					_renderFeature.CommandBuffer = null;
-				}
-			}
-			else if(!RenderUtility.IsUsingHDRP())
-			{
-				if (_camera != null)
-				{
-					_camera.RemoveCommandBuffer(CameraEvent.AfterEverything, _renderCommandBuffer);
-				}
-			}
-
-			if (_renderCommandBuffer != null)
-			{
-				RenderUtility.ReleaseCommandBuffer(_renderCommandBuffer);
-			}
-
-			_renderCommandBuffer = null;
-
 			if (_doGlobalEvents)
 			{
 				UImGuiUtility.DoOnDeinitialize(this);
@@ -242,55 +201,47 @@ namespace UImGui
 		{
 			if (RenderUtility.IsUsingHDRP())
 				return; // skip update call in hdrp
-			DoUpdate(this.CommandBuffer);
-		}
 
-		internal void DoUpdate(CommandBuffer buffer)
-		{
-			UImGuiUtility.SetCurrentContext(_context);
-			ImGuiIOPtr io = ImGui.GetIO();
+            UImGuiUtility.SetCurrentContext(_context);
+            ImGuiIOPtr io = ImGui.GetIO();
 
-			Constants.PrepareFrameMarker.Begin(this);
-			_context.TextureManager.PrepareFrame(io);
-			_platform.PrepareFrame(io, _camera.pixelRect);
-			ImGui.NewFrame();
+            Constants.PrepareFrameMarker.Begin(this);
+            _context.TextureManager.PrepareFrame(io);
+            _platform.PrepareFrame(io, _camera.pixelRect);
+            ImGui.NewFrame();
 #if !UIMGUI_REMOVE_IMGUIZMO
 			ImGuizmoNET.ImGuizmo.BeginFrame();
 #endif
-			Constants.PrepareFrameMarker.End();
+            Constants.PrepareFrameMarker.End();
 
-			Constants.LayoutMarker.Begin(this);
-			try
-			{
-				if (_doGlobalEvents)
-				{
-					UImGuiUtility.DoLayout(this);
-				}
+            Constants.LayoutMarker.Begin(this);
+            try
+            {
+                if (_doGlobalEvents)
+                {
+                    UImGuiUtility.DoLayout(this);
+                }
 
-				Layout?.Invoke(this);
-			}
-			finally
-			{
-				ImGui.Render();
-				Constants.LayoutMarker.End();
-			}
+                Layout?.Invoke(this);
+            }
+            finally
+            {
+                ImGui.Render();
+                Constants.LayoutMarker.End();
+            }
 
-			Constants.DrawListMarker.Begin(this);
-			_renderCommandBuffer.Clear();
-			_renderer.RenderDrawLists(buffer, ImGui.GetDrawData());
-			Constants.DrawListMarker.End();
-
-			if (_isChangingCamera)
-			{
-				_isChangingCamera = false;
-				Reload();
-			}
-		}
+            if (_isChangingCamera)
+            {
+                _isChangingCamera = false;
+                Reload();
+            }
+        }
 
 		private void SetRenderer(IRenderer renderer, ImGuiIOPtr io)
 		{
 			_renderer?.Shutdown(io);
 			_renderer = renderer;
+			_renderFeature.SetRenderer(renderer);
 			_renderer?.Initialize(io);
 		}
 

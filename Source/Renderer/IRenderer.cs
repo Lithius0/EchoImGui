@@ -25,6 +25,6 @@ namespace UImGui.Renderer
 		/// </summary>
 		/// <param name="commandBuffer"></param>
 		/// <param name="drawData"></param>
-		void RenderDrawLists(CommandBuffer commandBuffer, ImDrawDataPtr drawData);
+		void RenderDrawLists(RasterCommandBuffer commandBuffer, ImDrawDataPtr drawData);
 	}
 }
