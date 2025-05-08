@@ -26,10 +26,12 @@ namespace UImGui.Platform
 
 		public virtual bool Initialize(ImGuiIOPtr io, UIOConfig config, string platformName)
 		{
-			io.SetBackendPlatformName("Unity Input System");
+            var platformIo = ImGui.GetPlatformIO();
+
+            io.SetBackendPlatformName("Unity Input System");
 			io.BackendFlags |= ImGuiBackendFlags.HasMouseCursors;
 
-			if ((config.ImGuiConfig & ImGuiConfigFlags.NavEnableSetMousePos) != 0)
+			if (io.ConfigNavMoveSetMousePos)
 			{
 				io.BackendFlags |= ImGuiBackendFlags.HasSetMousePos;
 				io.WantSetMousePos = true;
@@ -46,7 +48,7 @@ namespace UImGui.Platform
 			}
 
 			_callbacks.Assign(io);
-			io.ClipboardUserData = IntPtr.Zero;
+            platformIo.Platform_ClipboardUserData = IntPtr.Zero;
 
 			if (_iniSettings != null)
 			{

@@ -51,14 +51,16 @@ namespace UImGui.Platform
 
 		public void Assign(ImGuiIOPtr io)
 		{
-			io.SetClipboardTextFn = Marshal.GetFunctionPointerForDelegate(_setClipboardText);
-			io.GetClipboardTextFn = Marshal.GetFunctionPointerForDelegate(_getClipboardText);
+			var platformIo = ImGui.GetPlatformIO();
+            platformIo.Platform_SetClipboardTextFn = Marshal.GetFunctionPointerForDelegate(_setClipboardText);
+            platformIo.Platform_GetClipboardTextFn = Marshal.GetFunctionPointerForDelegate(_getClipboardText);
 		}
 
 		public void Unset(ImGuiIOPtr io)
-		{
-			io.SetClipboardTextFn = IntPtr.Zero;
-			io.GetClipboardTextFn = IntPtr.Zero;
+        {
+            var platformIo = ImGui.GetPlatformIO();
+            platformIo.Platform_SetClipboardTextFn = IntPtr.Zero;
+			platformIo.Platform_GetClipboardTextFn = IntPtr.Zero;
 		}
 
 		public static GetClipboardTextSafeCallback GetClipboardText

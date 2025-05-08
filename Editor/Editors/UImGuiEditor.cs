@@ -130,11 +130,7 @@ namespace UImGui.Editor
 			{
 				_messages.AppendLine("Platform not available.");
 			}
-			else if ((InputType)_platform.enumValueIndex != InputType.InputSystem &&
-				(configFlags.intValue & (int)ImGuiConfigFlags.NavEnableSetMousePos) != 0)
-			{
-				_messages.AppendLine("Will not work NavEnableSetPos with InputManager.");
-			}
+
 
 			if ((configFlags.intValue & (int)ImGuiConfigFlags.ViewportsEnable) != 0)
 			{

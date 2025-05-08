@@ -24,11 +24,17 @@ namespace UImGui
 
 		internal static unsafe Context CreateContext()
 		{
-			return new Context
-			{
-				ImGuiContext = ImGui.CreateContext(),
+			var imGuiContext = ImGui.CreateContext();
 #if !UIMGUI_REMOVE_IMPLOT
-				ImPlotContext = ImPlotNET.ImPlot.CreateContext(),
+            var imPlotContext = ImPlotNET.ImPlot.CreateContext();
+			ImPlotNET.ImPlot.SetImGuiContext(imGuiContext);
+#endif
+
+            return new Context
+			{
+				ImGuiContext = imGuiContext,
+#if !UIMGUI_REMOVE_IMPLOT
+				ImPlotContext = imPlotContext,
 #endif
 #if !UIMGUI_REMOVE_IMNODES
 				ImNodesContext = new IntPtr(imnodesNET.imnodes.CreateContext()),
