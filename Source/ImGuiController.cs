@@ -21,8 +21,6 @@ namespace UImGui
         private FontAtlasConfigAsset fontAtlasConfiguration = null;
         [SerializeField]
         private InputType _platformType = InputType.InputManager;
-        [SerializeField]
-        private Camera _camera;
 
         [SerializeField]
         private UIOConfig _initialConfiguration = new UIOConfig
@@ -91,14 +89,14 @@ namespace UImGui
 
         private void Update()
         {
-            if (_camera == null)
-                return;
-
             ImGuiIOPtr io = ImGui.GetIO();
 
             Constants.PrepareFrameMarker.Begin(this);
             textureManager.PrepareFrame(io);
-            _platform.PrepareFrame(io, _camera.pixelRect);
+            _platform.PrepareFrame(io);
+
+            io.DisplaySize = new Vector2(Screen.width, Screen.height);
+
             ImGui.NewFrame();
             Constants.PrepareFrameMarker.End();
 
@@ -127,11 +125,6 @@ namespace UImGui
             textureManager = new TextureManager();
             textureManager.BuildFontAtlas(io, fontAtlasConfiguration, fontCustomInitializer);
             textureManager.Initialize(io);
-
-            if (_camera == null)
-            {
-                _camera = Camera.main;
-            }
 
             _initialConfiguration.ApplyTo(io);
             _style?.ApplyTo(ImGui.GetStyle());

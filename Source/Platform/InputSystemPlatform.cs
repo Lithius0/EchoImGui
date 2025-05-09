@@ -253,9 +253,9 @@ namespace UImGui.Platform
             InputSystem.onDeviceChange -= OnDeviceChange;
         }
 
-        public override void PrepareFrame(ImGuiIOPtr io, Rect displayRect)
+        public override void PrepareFrame(ImGuiIOPtr io)
         {
-            base.PrepareFrame(io, displayRect);
+            base.PrepareFrame(io);
 
             try
             {

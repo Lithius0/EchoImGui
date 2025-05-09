@@ -25,7 +25,6 @@ namespace UImGui.Platform
 		/// 
 		/// </summary>
 		/// <param name="io"></param>
-		/// <param name="displayRect"></param>
-		void PrepareFrame(ImGuiIOPtr io, Rect displayRect);
+		void PrepareFrame(ImGuiIOPtr io);
 	}
 }
