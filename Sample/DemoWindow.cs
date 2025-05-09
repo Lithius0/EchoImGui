@@ -13,7 +13,7 @@ using UnityEngine;
 
 namespace UImGui
 {
-    public class ShowDemoWindow2 : MonoBehaviour
+    public class DemoWindow : MonoBehaviour
     {
 #if !UIMGUI_REMOVE_IMPLOT
         [SerializeField]
