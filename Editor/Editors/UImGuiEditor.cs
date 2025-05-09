@@ -99,7 +99,7 @@ namespace UImGui.Editor
 			var textImGui = $"ImGUI: {ImGui.GetVersion()}";
 			var textImNodes = $"ImNodes: { (usingImNodes ? "0.4 - 2021-07-09" : "disabled") }";
 			var textImGuizmo = $"ImGuizmo: { (usingImGuizmo ? "?? - 2021-07-09" : "disabled") }";
-			var textImPlot = $"ImPlot: { (usingImPlot ? "0.10 - 2021-07-09" : "disabled") }";
+			var textImPlot = $"ImPlot: { (usingImPlot ? "0.17 - 2025-05-09" : "disabled") }";
 
 			EditorGUILayout.LabelField(textImGui);
 			EditorGUILayout.LabelField(textImNodes);
