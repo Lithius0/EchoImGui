@@ -1,13 +1,7 @@
 using ImGuiNET;
-#if !UIMGUI_REMOVE_IMNODES
-using imnodesNET;
-#endif
 #if !UIMGUI_REMOVE_IMPLOT
 using ImPlotNET;
 using System.Linq;
-#endif
-#if !UIMGUI_REMOVE_IMGUIZMO
-using ImGuizmoNET;
 #endif
 using UnityEngine;
 
