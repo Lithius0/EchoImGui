@@ -123,6 +123,8 @@ namespace EchoImGui
 
         [SerializeField]
         private Material material;
+        [SerializeField]
+        private string textureProperty = "_Texture";
 
         private ImGuiMeshRenderPass renderPass;
         private Mesh mesh;
@@ -161,7 +163,7 @@ namespace EchoImGui
                 material = material,
                 materialPropertyBlock = new MaterialPropertyBlock(),
                 renderPassEvent = RenderPassEvent.AfterRenderingPostProcessing,
-                textureId = Shader.PropertyToID("_Texture"), // TODO: Have this be set somewhere else
+                textureId = Shader.PropertyToID(textureProperty),
             };
         }
 
