@@ -4,7 +4,7 @@ using System.Runtime.CompilerServices;
 using System.Text;
 using UnityEngine;
 
-namespace UImGui
+namespace EchoImGui
 {
 	internal static unsafe class Utils
 	{

@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Runtime.InteropServices;
 
-namespace UImGui
+namespace EchoImGui
 {
 	internal static unsafe partial class ImFreetypeNative
 	{

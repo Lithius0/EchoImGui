@@ -2,14 +2,14 @@
 using System;
 using System.Collections.Generic;
 using System.Runtime.InteropServices;
-using UImGui.Assets;
-using UImGui.Events;
+using EchoImGui.Assets;
+using EchoImGui.Events;
 using Unity.Collections;
 using Unity.Collections.LowLevel.Unsafe;
 using UnityEngine;
 using UTexture = UnityEngine.Texture;
 
-namespace UImGui.Texture
+namespace EchoImGui.Texture
 {
 	// TODO: Write documentation for methods
 	internal class TextureManager

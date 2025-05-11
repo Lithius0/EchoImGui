@@ -2,12 +2,12 @@
 using ImGuiNET;
 using System;
 using System.Collections.Generic;
-using UImGui.Assets;
+using EchoImGui.Assets;
 using UnityEngine;
 using UnityEngine.InputSystem;
 using UnityEngine.InputSystem.Controls;
 
-namespace UImGui.Platform
+namespace EchoImGui.Platform
 {
     // Implemented features:
     // [x] Platform: Clipboard support.

@@ -1,12 +1,21 @@
-# UImGui
-![GitHub tag (latest by date)](https://img.shields.io/github/v/tag/psydack/uimgui?style=flat-square)  
-<sub>([ImGui library](https://github.com/ocornut/imgui) is available under a free and permissive license, but needs financial support to sustain its continued improvements. In addition to maintenance and stability there are many desirable features yet to be added. If your company is using Dear ImGui, please consider reaching out.)</sub>
+# EchoImGui
+EchoImGui is a Unity package that provides a wrapper for the [Dear ImGui](https://github.com/ocornut/imgui) [ImPlot](https://github.com/epezent/implot) libraries. This project is built on [ImGui.NET](https://github.com/ImGuiNET/ImGui.NET) and was originally a fork of [UImGui](https://github.com/psydack/uimgui). 
 
-UImGui (Unity ImGui) is an UPM package for the immediate mode GUI library using [ImGui.NET](https://github.com/mellinoe/ImGui.NET).
-This project is based on [RG.ImGui](https://github.com/realgamessoftware/dear-imgui-unity) project. 
-This project use [FreeType](https://github.com/ocornut/imgui/tree/master/misc/freetype) as default renderer.
+This package is intended for use as a library for quickly writing debug menus for developer tools. It is not intended as a general purpose UI library.
 
-**Using imgui 1.90.1**
+## Compatibility
+This package should work with Unity 6000.0+ using the Universal Rendering Pipeline. **Currently, the project will not work for built-in or HDRP**. 
+Not likely to work on Mac or Linux, I only have a Windows machine to test with. If you have a Mac or Linux and would like to help with testing, feel free to reach out.
+
+This package is currently tailored for my own uses. I cannot guarantee support for anything beyond what I need the package for. 
+
+## Differences from UImGui
+There are some pretty major changes from UImGui that resulted in this being split off as an separate project. Here's a quick list of the user-facing changes:
+- Incorporation of ImPlot as a core dependency rather than being optional.
+- Updated DearImGui and Implot dlls.
+- Rewritten controller script (UImGui.cs -> ImGuiController.cs).
+- Migration to the RenderGraph API for URP.
+- No support for ImNodes or ImGuizmo (at least for now).
 
 ----
 
@@ -16,361 +25,64 @@ This project use [FreeType](https://github.com/ocornut/imgui/tree/master/misc/fr
 > 
 > Dear ImGui is designed to **enable fast iterations** and to **empower programmers** to create **content creation tools and visualization / debug tools** (as opposed to UI for the average end-user). It favors simplicity and productivity toward this goal, and lacks certain features normally found in more high-level libraries.
 
-
-## Motivation
-
-To update (using ImGui.Net.dll) easier and often.
-
-## Features
-
-| Feature                                                   |         RG         |      UImGui        | 
-| -----------------                                         | ------------------ | ------------------ |
-| IL2CPP                                                    | :x:                | :heavy_check_mark: |
-| Windows                                                   | :heavy_check_mark: | :heavy_check_mark: |
-| Linux                                                     | :heavy_check_mark: | :heavy_check_mark: |
-| MacOS                                                     | :heavy_check_mark: | :heavy_check_mark: |
-| Custom Assert                                             | :heavy_check_mark: | :x: 		          |
-| Unity Input Manager                                       | :heavy_check_mark: | :heavy_check_mark: |
-| Unity Input System                                        | :heavy_check_mark: | :heavy_check_mark: |
-| Docking                                                   | :x:                | :heavy_check_mark: |
-| RenderPipeline Built in                                   | :heavy_check_mark: | :heavy_check_mark: |
-| RenderPipeline URP                                        | :x:                | :heavy_check_mark: |
-| RenderPipeline HDRP                                       | :x:                | :heavy_check_mark: |
-| Renderer Mesh                                             | :heavy_check_mark: | :heavy_check_mark: |
-| Renderer Procedural                                       | ~                  | :heavy_check_mark: |
-| FreeType                                                  | ~                  | WIP |
-| Image / Texture                                           | :x:				 | :heavy_check_mark: |
-| [ImNodes](https://github.com/Nelarius/imnodes)       		| :x:				 | WIP                |
-| [ImGuizmo](https://github.com/CedricGuillemet/ImGuizmo)   | :x:				 | WIP                |
-| [ImPlot](https://github.com/epezent/implot)      		 	| :x:				 | WIP                |
+Setup
+-------
+### URP:
+1. Add either the `ImGuiMeshRenderer` or `ImGuiProceduralRenderer` Renderer Feature to your Renderer (there are functionally equivalent). If you've just created a URP project, it should be called "PC_Renderer" or something to that effect.
+1. Make sure the Material field in the Renderer Feature isn't empty. If you're using a custom shader assign a custom material. Otherwise, there are default materials in the EchoImGui/Resources tab. 
 
 Usage
 -------
-- [Add package](https://docs.unity3d.com/Manual/upm-ui-giturl.html) from git URL: https://github.com/psydack/uimgui.git or add manually in your packages folders and update your manifest.json with the [lastest version](https://github.com/psydack/uimgui/blob/main/package.json) (e.g: "com.psydack.uimgui" : "5.0.0")
-- Add `UImGui` component to the scene and
-- (Optional) Set `Platform Type` to `Input System` if you're using the new [input system](https://docs.unity3d.com/Packages/com.unity.inputsystem@1.0/manual/index.html) the `SampleDemoWindow` object on the scene the following properties:
-- If you're using **URP** check [Using URP](https://github.com/psydack/uimgui#using-urp) section, for **HDRP** [Using HDRP](https://github.com/psydack/uimgui#using-hdrp) section, for **built in** check [Using Built in](https://github.com/psydack/uimgui#using-hdrp) section.
-- You're ready. Look [Samples section](https://github.com/psydack/uimgui#samples) for more usage samples.  
-- To use [ImNodes](https://github.com/Nelarius/imnodes), [ImGuizmo](https://github.com/CedricGuillemet/ImGuizmo) or [ImPlot](https://github.com/epezent/implot)   check the sample script. If you won't use, [you can disable using directives](https://github.com/psydack/uimgui#directives)  
-- (optional) You can build your ImGui.NET using my custom repo: [ImGui.NET](https://github.com/psydack/ImGui.NET) and [ImGui.NET-nativebuild](https://github.com/psydack/ImGui.NET-nativebuild)
+- [Add package](https://docs.unity3d.com/Manual/upm-ui-giturl.html) from git URL: https://github.com/Lithius0/EchoImGui.git or save the source into a folder and use "Install package from disk" in the Package Manager.
+- Add `ImGuiController` component to all scenes where you want the GUI to be visible.
+- (Optional) Add `DemoWindow` component for a demo of what Dear ImGui has to offer.
+- (Optional) Set `Platform Type` to `Input System` if you're using the new [input system](https://docs.unity3d.com/Packages/com.unity.inputsystem@1.0/manual/index.html)
 
-Samples
--------
-It has a demo script called `ShowDemoWindow` inside `UImGui/Sample` folder. 
-
-You can subscribe to global layout or for a specific `UImGui` context:
-If choose to use global, don't to forget to set ``Do Global Events`` to ``true`` on ``UImGui`` instance.
+From here you can add your own components by subscribing to `ImGuiController.OnLayout` event like so:
 
 ```cs
-using UImGui;
-using UnityEngine;
-
-public class StaticSample : MonoBehaviour
-{
-	private void Awake()
-	{
-		UImGuiUtility.Layout += OnLayout;
-		UImGuiUtility.OnInitialize += OnInitialize;
-		UImGuiUtility.OnDeinitialize += OnDeinitialize;
-	}
-
-	private void OnLayout(UImGui.UImGui obj)
-	{
-		// Unity Update method. 
-		// Your code belongs here! Like ImGui.Begin... etc.
-	}
-
-	private void OnInitialize(UImGui.UImGui obj)
-	{
-		// runs after UImGui.OnEnable();
-	}
-
-	private void OnDeinitialize(UImGui.UImGui obj)
-	{
-		// runs after UImGui.OnDisable();
-	}
-
-	private void OnDisable()
-	{
-		UImGuiUtility.Layout -= OnLayout;
-		UImGuiUtility.OnInitialize -= OnInitialize;
-		UImGuiUtility.OnDeinitialize -= OnDeinitialize;
-	}
-}
-
-```
-
-To use instance instead a global UImGui, use like this.
-
-```cs
-using UnityEngine;
-
-public class InstanceSample : MonoBehaviour
+public class Example : MonoBehaviour
 {
 	[SerializeField]
-	private UImGui.UImGui _uimGuiInstance;
+	private float _sliderFloatValue = 1;
 
-	private void Awake()
+	[SerializeField]
+	private string _inputText;
+
+	private void OnEnable()
 	{
-		if (_uimGuiInstance == null)
-		{
-			Debug.LogError("Must assign a UImGuiInstance or use UImGuiUtility with Do Global Events on UImGui component.");
-		}
-
-		_uimGuiInstance.Layout += OnLayout;
-		_uimGuiInstance.OnInitialize += OnInitialize;
-		_uimGuiInstance.OnDeinitialize += OnDeinitialize;
-	}
-
-	private void OnLayout(UImGui.UImGui obj)
-	{
-		// Unity Update method. 
-		// Your code belongs here! Like ImGui.Begin... etc.
-	}
-
-	private void OnInitialize(UImGui.UImGui obj)
-	{
-		// runs after UImGui.OnEnable();
-	}
-
-	private void OnDeinitialize(UImGui.UImGui obj)
-	{
-		// runs after UImGui.OnDisable();
+		ImGuiController.OnLayout += OnLayout;
 	}
 
 	private void OnDisable()
 	{
-		_uimGuiInstance.Layout -= OnLayout;
-		_uimGuiInstance.OnInitialize -= OnInitialize;
-		_uimGuiInstance.OnDeinitialize -= OnDeinitialize;
-	}
-}
-```
-
-Sample code
-```cs
-[SerializeField]
-private float _sliderFloatValue = 1;
-
-[SerializeField]
-private string _inputText;
-
-// Add listeners, etc ...
-
-private void OnLayout(UImGui.UImGui obj)
-{
-	ImGui.Text($"Hello, world {123}");
-	if (ImGui.Button("Save"))
-	{
-		Debug.Log("Save");
+		ImGuiController.OnLayout -= OnLayout;
 	}
 
-	ImGui.InputText("string", ref _inputText, 100);
-	ImGui.SliderFloat("float", ref _sliderFloatValue, 0.0f, 1.0f);
-}
-```
-![image](https://user-images.githubusercontent.com/961971/119239324-b54bf880-bb1e-11eb-87e3-0ecbfaafde27.png)
-
-```cs
-[SerializeField]
-private Vector4 _myColor;
-private bool _isOpen;
-
-private void OnLayout(UImGui.UImGui obj)
-{
-	// Create a window called "My First Tool", with a menu bar.
-	ImGui.Begin("My First Tool", ref _isOpen, ImGuiWindowFlags.MenuBar);
-	if (ImGui.BeginMenuBar())
+	private void OnLayout()
 	{
-		if (ImGui.BeginMenu("File"))
+		ImGui.Text($"Hello, world {123}");
+		if (ImGui.Button("Save"))
 		{
-			if (ImGui.MenuItem("Open..", "Ctrl+O")) { /* Do stuff */ }
-			if (ImGui.MenuItem("Save", "Ctrl+S")) { /* Do stuff */ }
-			if (ImGui.MenuItem("Close", "Ctrl+W")) { _isOpen = false; }
-			ImGui.EndMenu();
-		}
-		ImGui.EndMenuBar();
-	}
-
-	// Edit a color (stored as ~4 floats)
-	ImGui.ColorEdit4("Color", ref _myColor);
-
-	// Plot some values
-	float[] my_values = new float[] { 0.2f, 0.1f, 1.0f, 0.5f, 0.9f, 2.2f };
-	ImGui.PlotLines("Frame Times", ref my_values[0], my_values.Length);
-
-
-	// Display contents in a scrolling region
-	ImGui.TextColored(new Vector4(1, 1, 0, 1), "Important Stuff");
-	ImGui.BeginChild("Scrolling");
-	for (int n = 0; n < 50; n++)
-		ImGui.Text($"{n}: Some text");
-	ImGui.EndChild();
-	ImGui.End();
-}
-```
-![image](https://user-images.githubusercontent.com/961971/119239823-f42f7d80-bb21-11eb-9f65-9fe03d8b2887.png)
-
-Image Sample
-
-```cs
-[SerializeField]
-private Texture _sampleTexture;
-
-private void OnLayout(UImGui.UImGui obj)
-{
-	if (ImGui.Begin("Image Sample"))
-	{
-		System.IntPtr id = UImGuiUtility.GetTextureId(_sampleTexture);
-		Vector2 size = new Vector2(_sampleTexture.width, _sampleTexture.height)
-		ImGui.Image(id, size);
-
-		ImGui.End();
-	}
-}
-```
-![image](https://user-images.githubusercontent.com/961971/119574206-b9308280-bd8b-11eb-9df2-8bc07cf57140.png)  
-  
-Custom UserData
-
-```cs
-[Serializable]
-private struct UserData
-{
-	public int SomeCoolValue;
-}
-
-[SerializeField]
-private UserData _userData;
-private string _input = "";
-
-// Add Listeners... etc.
-
-private unsafe void OnInitialize(UImGui.UImGui uimgui)
-{
-	fixed (UserData* ptr = &_userData)
-	{
-		uimgui.SetUserData((IntPtr)ptr);
-	}
-}
-
-private unsafe void OnLayout(UImGui.UImGui obj)
-{
-	if (ImGui.Begin("Custom UserData"))
-	{
-		fixed (UserData* ptr = &_userData)
-		{
-			ImGuiInputTextCallback customCallback = CustomCallback;
-			ImGui.InputText("label", ref _input, 100, ~(ImGuiInputTextFlags)0, customCallback, (IntPtr)ptr);
+			Debug.Log("Save");
 		}
 
-		ImGui.End();
+		ImGui.InputText("string", ref _inputText, 100);
+		ImGui.SliderFloat("float", ref _sliderFloatValue, 0.0f, 1.0f);
 	}
 }
-
-private unsafe int CustomCallback(ImGuiInputTextCallbackData* data)
-{
-	IntPtr userDataPtr = (IntPtr)data->UserData;
-	if (userDataPtr != IntPtr.Zero)
-	{
-		UserData userData = Marshal.PtrToStructure<UserData>(userDataPtr);
-		Debug.Log(userData.SomeCoolValue);
-	}
-
-	// You must to overwrite how you handle with new inputs.
-	// ...
-
-	return 1;
-}
 ```
-![image](https://user-images.githubusercontent.com/961971/120383734-a1ad4880-c2fb-11eb-87e1-398d5e7aac97.png)
 
-Custom font 
+## Using EchoImGui
+EchoImGui is basically just a way to use Dear ImGui in Unity at the end of the day, so here's some resources for using Dear ImGui in general:
 
-[Thanks](https://github.com/psydack/uimgui/pull/24)  
-[Check here for more information](https://github.com/ocornut/imgui/blob/master/docs/FONTS.md)
+- **[Dear ImGui](https://github.com/ocornut/imgui)**:
+If it feels like there's essentially no documentation on any of the methods, that's because there isn't. ImGui.NET is primarily auto-generated and the method documentation is all in the C++ version.
+If you're unsure about what a parameter is or what a method does, it can help to open the files in that repo and find the method you're looking for. 
+There's a good chance there's documentation describing what you need.
 
-- First create a method with ImGuiIOPtr like this
-```cs
-public void AddJapaneseFont(ImGuiIOPtr io)
-{
-	// you can put on StreamingAssetsFolder and call from there like:
-	//string fontPath = $"{Application.streamingAssetsPath}/NotoSansCJKjp - Medium.otf";
-	string fontPath = "D:\\Users\\rofli.souza\\Desktop\\NotoSansCJKjp-Medium.otf";
-	io.Fonts.AddFontFromFileTTF(fontPath, 18, null, io.Fonts.GetGlyphRangesJapanese());
+- **[ImGui Manual](https://pthom.github.io/imgui_manual_online/manual/imgui_manual.html)**:
+This is very useful for seeing what all ImGui has to offer and seeing the accompanying sample code. The quickest way to learn Dear ImGui is copying someone's example.
 
-	// you can create a configs and do a lot of stuffs
-	//ImFontConfig fontConfig = default;
-	//ImFontConfigPtr fontConfigPtr = new ImFontConfigPtr(&fontConfig);
-	//fontConfigPtr.MergeMode = true;
-	//io.Fonts.AddFontDefault(fontConfigPtr);
-	//int[] icons = { 0xf000, 0xf3ff, 0 };
-	//fixed (void* iconsPtr = icons)
-	//{
-	//	io.Fonts.AddFontFromFileTTF("fontawesome-webfont.ttf", 18.0f, fontConfigPtr, (System.IntPtr)iconsPtr);
-	//}
-}
-```  
-- Assign the object that contain these method in UImGui script
-![image](https://user-images.githubusercontent.com/961971/149441417-54b319c8-30e7-40dd-aa56-edaede47543d.png)
-- Create an awesome text:
-```cs
-if (ImGui.Begin("ウィンドウテスト"))
-{
-	ImGui.Text("こんにちは！テスト");
-
-	ImGui.End();
-}
-```
-![image](https://user-images.githubusercontent.com/961971/149443777-38f439f5-5aca-4188-a21b-32274e901382.png)  
-Yay!
-  
-You can [see more samples here](https://pthom.github.io/imgui_manual_online/manual/imgui_manual.html).
-
-Using URP
--------
-- Add a `Render Im Gui Feature` render feature to the renderer asset. 
-- Assign it to the `render feature` field of the DearImGui component.
-- Check this [issue](https://github.com/psydack/uimgui/issues/14) which I describe how to make it work step by step.
-
-Using HDRP
--------
-- When using the ``High Definition Render Pipeline``; 
-- Add a script called Custom Pass Volume anywhere on your scene;
-- Add "DearImGuiPass" 
-- Update Injection Point to before or after post processing.
-- Good to go.
-Any doubts [see this link](https://docs.unity3d.com/Packages/com.unity.render-pipelines.high-definition@7.1/manual/Custom-Pass.html)
-
-Using Built in
--------
-No special sets.
-
-Directives
--------
-- ``UIMGUI_REMOVE_IMPLOT``: don't load implot lib and sources.  
-- ``UIMGUI_REMOVE_IMNODES``: don't load imnodes lib and sources.  
-- ``UIMGUI_REMOVE_IMGUIZMO``: don't load imguizmo lib and sources.  
-
-Known issues
--------
-
-Issue: Already using ``System.Runtime.CompilerServices.Unsafe.dll`` will cause the following error: ``Multiple precompiled assemblies with the same name System.Runtime.CompilerServices.Unsafe.dll included or the current platform Only one assembly with the same name is allowed per platform.
-Resolution: add ``UIMGUI_REMOVE_UNSAFE_DLL`` on Project Settings > Player > Other Settings >  Script define symbols > Apply > Restart Unity Editor.  
-  
-Issue: ImPlot isn't work right. 
-  
-Issue: Font atlas crash. There's no fix. Use callback for custom font instead
-
-Credits
--------
-Original repo https://github.com/realgamessoftware/dear-imgui-unity  
-Thanks to @lacrc and @airtonmotoki for encouraging me.  
-https://www.conventionalcommits.org/en/v1.0.0/  
-https://semver.org/   
-https://github.com/yeyushengfan258/Lyra-Cursors  
-https://github.com/lob/generate-changelog  
-
-License
--------
-Dear ImGui is licensed under the MIT License, see [LICENSE.txt](https://github.com/ocornut/imgui/blob/master/LICENSE.txt) for more information.
+- **[ImPlot Demo](https://traineq.org/implot_demo/src/implot_demo.html)**:
+This is the ImPlot equivalent to the ImGui manual.

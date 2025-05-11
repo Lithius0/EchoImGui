@@ -2,7 +2,7 @@
 using System;
 using UnityEngine;
 
-namespace UImGui
+namespace EchoImGui
 {
 	/// <summary>
 	/// TODO: Write more.

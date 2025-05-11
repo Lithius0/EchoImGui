@@ -1,8 +1,8 @@
 ﻿using ImGuiNET;
-using UImGui.Assets;
+using EchoImGui.Assets;
 using UnityEngine;
 
-namespace UImGui.Platform
+namespace EchoImGui.Platform
 {
 	// TODO: Check this feature and remove from here when checked and done.
 	// Implemented features:

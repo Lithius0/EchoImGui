@@ -1,3 +1,3 @@
 ﻿using System.Runtime.CompilerServices;
 
-[assembly: InternalsVisibleTo("UImGui.Editor")]
+[assembly: InternalsVisibleTo("EchoImGui.Editor")]

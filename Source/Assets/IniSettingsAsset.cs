@@ -1,6 +1,6 @@
 ﻿using UnityEngine;
 
-namespace UImGui.Assets
+namespace EchoImGui.Assets
 {
 	// TODO: Ability to save to asset, in player prefs with custom key, custom ini file, etc
 	/// <summary>

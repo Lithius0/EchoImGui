@@ -1,6 +1,6 @@
 ﻿using UnityEngine;
 
-namespace UImGui
+namespace EchoImGui
 {
 	[System.Serializable]
 	internal struct FontDefinition

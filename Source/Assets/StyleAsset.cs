@@ -1,7 +1,7 @@
 ﻿using ImGuiNET;
 using UnityEngine;
 
-namespace UImGui.Assets
+namespace EchoImGui.Assets
 {
 	[CreateAssetMenu(menuName = "Dear ImGui/Style")]
 	internal sealed class StyleAsset : ScriptableObject

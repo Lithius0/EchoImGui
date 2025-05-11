@@ -1,5 +1,5 @@
 {
-    "name": "UImGui.Editor",
+    "name": "EchoImGui.Editor",
     "rootNamespace": "",
     "references": [
         "GUID:9a87097604f806340b969a2d9261a322"

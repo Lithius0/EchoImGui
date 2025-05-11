@@ -4,7 +4,7 @@ using System.Collections.Generic;
 using System.Runtime.InteropServices;
 using System.Text;
 
-namespace UImGui
+namespace EchoImGui
 {
 	internal static unsafe class ImGuiExtension
 	{

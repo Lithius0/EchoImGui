@@ -1,9 +1,9 @@
 using ImGuiNET;
-using UImGui.Assets;
+using EchoImGui.Assets;
 using UnityEditor;
 using UnityEngine;
 
-namespace UImGui.Editor
+namespace EchoImGui.Editor
 {
 	[CustomEditor(typeof(StyleAsset))]
 	internal class StyleAssetEditor : UnityEditor.Editor

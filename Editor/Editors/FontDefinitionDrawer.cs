@@ -1,7 +1,7 @@
 ﻿using UnityEditor;
 using UnityEngine;
 
-namespace UImGui.Editor
+namespace EchoImGui.Editor
 {
 	[CustomPropertyDrawer(typeof(FontDefinition))]
 	internal class FontDefinitionDrawer : PropertyDrawer

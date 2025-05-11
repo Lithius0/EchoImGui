@@ -1,7 +1,7 @@
 ﻿using UnityEngine;
 using UTexture = UnityEngine.Texture;
 
-namespace UImGui.Texture
+namespace EchoImGui.Texture
 {
 	internal sealed class SpriteInfo
 	{

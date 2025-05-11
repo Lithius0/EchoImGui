@@ -4,7 +4,7 @@ using System;
 using System.Runtime.InteropServices;
 using UnityEngine;
 
-namespace UImGui.Platform
+namespace EchoImGui.Platform
 {
 	#region Callback methods
 	// TODO: Should return Utf8 byte*, how to deal with memory ownership?

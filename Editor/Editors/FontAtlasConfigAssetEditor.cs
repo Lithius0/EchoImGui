@@ -1,9 +1,9 @@
-using UImGui.Assets;
+using EchoImGui.Assets;
 using UnityEditor;
 using UnityEditorInternal;
 using UnityEngine;
 
-namespace UImGui.Editor
+namespace EchoImGui.Editor
 {
 	[CustomEditor(typeof(FontAtlasConfigAsset))]
 	internal class FontAtlasConfigAssetEditor : UnityEditor.Editor

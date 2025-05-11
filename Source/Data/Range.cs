@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace UImGui
+namespace EchoImGui
 {
 	[Serializable]
 	internal struct Range

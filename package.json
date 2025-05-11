@@ -1,9 +1,9 @@
 {
-  "name": "com.psydack.uimgui",
-  "displayName": "UImGui",
-  "version": "5.0.0",
-  "description": "A Unity wrapper for ImGui",
-  "unity": "2019.4",
+  "name": "net.lithius.echoimgui",
+  "displayName": "EchoImGui",
+  "version": "0.1.0",
+  "description": "A Unity wrapper for Dear ImGui",
+  "unity": "6000.0",
   "dependencies": {
   },
   "keywords": [
@@ -12,12 +12,12 @@
     "ui"
   ],
   "author": {
-    "name": "Psydack",
-    "url": "https://github.com/psydack"
+    "name": "Lithius",
+    "url": "https://github.com/lithius0"
   },
   "repository": {
     "type": "git",
-    "url": "https://github.com/psydack/uimgui",
+    "url": "https://github.com/Lithius0/EchoImGui",
     "revision": ""
   }
 }

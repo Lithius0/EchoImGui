@@ -1,4 +1,4 @@
-﻿namespace UImGui.Platform
+﻿namespace EchoImGui.Platform
 {
 	public enum InputType
 	{

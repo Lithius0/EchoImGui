@@ -1,13 +1,12 @@
 using ImGuiNET;
 using System;
-using UImGui;
-using UImGui.Assets;
-using UImGui.Events;
-using UImGui.Platform;
-using UImGui.Texture;
+using EchoImGui.Assets;
+using EchoImGui.Events;
+using EchoImGui.Platform;
+using EchoImGui.Texture;
 using UnityEngine;
 
-namespace UImGui
+namespace EchoImGui
 {
     public class ImGuiController : MonoBehaviour
     {
@@ -115,10 +114,8 @@ namespace UImGui
         private void Setup()
         {
             var imGuiContext = ImGui.CreateContext();
-#if !UIMGUI_REMOVE_IMPLOT
             var imPlotContext = ImPlotNET.ImPlot.CreateContext();
             ImPlotNET.ImPlot.SetImGuiContext(imGuiContext);
-#endif
 
             ImGuiIOPtr io = ImGui.GetIO();
 
@@ -136,9 +133,7 @@ namespace UImGui
         private void Shutdown()
         {
             ImGui.DestroyContext();
-#if !UIMGUI_REMOVE_IMPLOT
             ImPlotNET.ImPlot.DestroyContext();
-#endif
         }
 
         private void SetPlatform(IPlatform platform, ImGuiIOPtr io)

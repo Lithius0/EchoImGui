@@ -1,10 +1,10 @@
 ﻿using ImGuiNET;
 using System;
-using UImGui.Assets;
+using EchoImGui.Assets;
 using UnityEngine;
 using UnityEngine.Assertions;
 
-namespace UImGui.Platform
+namespace EchoImGui.Platform
 {
 	/// <summary>
 	/// TODO: Write all methods a this base class usage.

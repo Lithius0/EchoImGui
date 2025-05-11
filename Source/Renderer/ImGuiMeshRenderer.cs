@@ -5,15 +5,15 @@ using UnityEngine.Rendering.RenderGraphModule;
 using ImGuiNET;
 using System.Runtime.InteropServices;
 using System;
-using UImGui.Renderer;
-using UImGui.Texture;
+using EchoImGui.Renderer;
+using EchoImGui.Texture;
 using System.Collections.Generic;
 using Unity.Collections.LowLevel.Unsafe;
 using Unity.Collections;
 using UnityEngine.Assertions;
-using UImGui.Assets;
+using EchoImGui.Assets;
 
-namespace UImGui
+namespace EchoImGui
 {
     public class ImGuiMeshRenderer : ScriptableRendererFeature
     {

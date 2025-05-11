@@ -2,9 +2,9 @@ using ImGuiNET;
 using System.Collections.Generic;
 using System.Runtime.InteropServices;
 using System;
-using UImGui.Renderer;
-using UImGui.Texture;
-using UImGui;
+using EchoImGui.Renderer;
+using EchoImGui.Texture;
+using EchoImGui;
 using Unity.Collections.LowLevel.Unsafe;
 using Unity.Collections;
 using UnityEngine;
@@ -13,7 +13,7 @@ using UnityEngine.Rendering.Universal;
 using UnityEngine.Rendering;
 using UnityEngine.Assertions;
 
-namespace UImGui.Renderer
+namespace EchoImGui.Renderer
 {
     public class ImGuiProceduralRenderer : ScriptableRendererFeature
     {

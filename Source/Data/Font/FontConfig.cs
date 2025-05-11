@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-namespace UImGui
+namespace EchoImGui
 {
 	[System.Serializable]
 	internal struct FontConfig

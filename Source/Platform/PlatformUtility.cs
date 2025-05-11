@@ -1,7 +1,7 @@
-﻿using UImGui.Assets;
+﻿using EchoImGui.Assets;
 using UnityEngine;
 
-namespace UImGui.Platform
+namespace EchoImGui.Platform
 {
 	internal static class PlatformUtility
 	{

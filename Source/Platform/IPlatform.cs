@@ -1,7 +1,7 @@
 ﻿using ImGuiNET;
 using UnityEngine;
 
-namespace UImGui.Platform
+namespace EchoImGui.Platform
 {
 	/// <summary>
 	/// Platform bindings for ImGui in Unity in charge of: mouse/keyboard/gamepad inputs, cursor shape, timing, windowing.

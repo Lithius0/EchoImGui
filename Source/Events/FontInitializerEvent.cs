@@ -2,7 +2,7 @@
 using UnityEngine.Events;
 
 
-namespace UImGui.Events
+namespace EchoImGui.Events
 {
 	[System.Serializable]
 	public class FontInitializerEvent : UnityEvent<ImGuiIOPtr> { }

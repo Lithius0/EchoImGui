@@ -2,7 +2,7 @@
 using System;
 using UnityEngine;
 
-namespace UImGui.Assets
+namespace EchoImGui.Assets
 {
 	// TODO: Implement animated cursor.
 	[CreateAssetMenu(menuName = "Dear ImGui/Cursor Shapes")]

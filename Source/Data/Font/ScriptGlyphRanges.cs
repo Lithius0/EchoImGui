@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace UImGui
+namespace EchoImGui
 {
 	[Flags]
 	internal enum ScriptGlyphRanges

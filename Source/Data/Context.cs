@@ -1,7 +1,7 @@
 ﻿using System;
-using UImGui.Texture;
+using EchoImGui.Texture;
 
-namespace UImGui
+namespace EchoImGui
 {
 	internal sealed class Context
 	{

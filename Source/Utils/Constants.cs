@@ -1,6 +1,6 @@
 ﻿using Unity.Profiling;
 
-namespace UImGui
+namespace EchoImGui
 {
 	internal static class Constants
 	{

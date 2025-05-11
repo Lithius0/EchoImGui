@@ -1,22 +1,18 @@
 using ImGuiNET;
-#if !UIMGUI_REMOVE_IMPLOT
 using ImPlotNET;
 using System.Linq;
-#endif
 using UnityEngine;
 
-namespace UImGui
+namespace EchoImGui
 {
     public class DemoWindow : MonoBehaviour
     {
-#if !UIMGUI_REMOVE_IMPLOT
         [SerializeField]
         float[] _barValues = Enumerable.Range(1, 10).Select(x => (x * x) * 1.0f).ToArray();
         [SerializeField]
         float[] _xValues = Enumerable.Range(1, 10).Select(x => (x * x) * 1.0f).ToArray();
         [SerializeField]
         float[] _yValues = Enumerable.Range(1, 10).Select(x => (x * x) * 1.0f).ToArray();
-#endif
 
         private void OnEnable()
         {
@@ -30,7 +26,6 @@ namespace UImGui
 
         private void OnLayout()
         {
-#if !UIMGUI_REMOVE_IMPLOT
             if (ImGui.Begin("Plot Window Sample"))
             {
                 ImGui.SetNextWindowSize(Vector2.one * 200, ImGuiCond.Once);
@@ -41,7 +36,6 @@ namespace UImGui
 
                 ImGui.End();
             }
-#endif
 
             ImGui.ShowDemoWindow();
         }
