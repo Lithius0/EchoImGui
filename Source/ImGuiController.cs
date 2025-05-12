@@ -93,9 +93,7 @@ namespace EchoImGui
             Constants.PrepareFrameMarker.Begin(this);
             textureManager.PrepareFrame(io);
             _platform.PrepareFrame(io);
-
             io.DisplaySize = new Vector2(Screen.width, Screen.height);
-
             ImGui.NewFrame();
             Constants.PrepareFrameMarker.End();
 
@@ -114,7 +112,7 @@ namespace EchoImGui
         private void OnEnable()
         {
             // ImGuiController sometimes fails to shutdown properly. 
-            if (Active)
+            if (ImGui.GetCurrentContext() != IntPtr.Zero || ImPlotNET.ImPlot.GetCurrentContext() != IntPtr.Zero)
             {
                 OnDisable();
             }
@@ -140,6 +138,7 @@ namespace EchoImGui
         {
             ImGui.DestroyContext();
             ImPlotNET.ImPlot.DestroyContext();
+            textureManager.Shutdown();
         }
 
         private void SetPlatform(IPlatform platform, ImGuiIOPtr io)
