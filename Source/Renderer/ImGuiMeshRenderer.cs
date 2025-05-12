@@ -15,6 +15,9 @@ using EchoImGui.Assets;
 
 namespace EchoImGui
 {
+    /// <summary>
+    /// Renders ImGui data as a renderer feature.
+    /// </summary>
     public class ImGuiMeshRenderer : ScriptableRendererFeature
     {
         class ImGuiMeshRenderPass : ScriptableRenderPass
@@ -121,8 +124,12 @@ namespace EchoImGui
             }
         }
 
+        [Tooltip("Material used to render Dear ImGui. Use a material using the DearImGui/Procedural shader.")]
         [SerializeField]
         private Material material;
+
+        [Header("Custom Shader Properties")]
+
         [SerializeField]
         private string textureProperty = "_Texture";
 
@@ -171,7 +178,9 @@ namespace EchoImGui
         // This method is called when setting up the renderer once per-camera.
         public override void AddRenderPasses(ScriptableRenderer renderer, ref RenderingData renderingData)
         {
-            if (ImGuiController.Instance == null)
+            if (!ImGuiController.Active)
+                return;
+            if (material == null)
                 return;
 
             var drawData = ImGui.GetDrawData();

@@ -15,6 +15,9 @@ using UnityEngine.Assertions;
 
 namespace EchoImGui.Renderer
 {
+    /// <summary>
+    /// Renders ImGui data as a renderer feature.
+    /// </summary>
     public class ImGuiProceduralRenderer : ScriptableRendererFeature
     {
         class ImGuiProceduralRenderPass : ScriptableRenderPass
@@ -144,8 +147,11 @@ namespace EchoImGui.Renderer
             }
         }
 
+        [Tooltip("Material used to render Dear ImGui. Use a material using the DearImGui/Mesh shader.")]
         [SerializeField]
         private Material material;
+
+        [Header("Custom Shader Properties")]
         [SerializeField]
         private string textureProperty = "_Texture";
         [SerializeField]
@@ -181,7 +187,7 @@ namespace EchoImGui.Renderer
         // This method is called when setting up the renderer once per-camera.
         public override void AddRenderPasses(ScriptableRenderer renderer, ref RenderingData renderingData)
         {
-            if (ImGuiController.Instance == null)
+            if (!ImGuiController.Active)
                 return;
 
             var drawData = ImGui.GetDrawData();

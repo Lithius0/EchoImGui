@@ -27,13 +27,15 @@ There are some pretty major changes from UImGui that resulted in this being spli
 
 Setup
 -------
+### Installation
+- [Add package](https://docs.unity3d.com/Manual/upm-ui-giturl.html) from git URL: https://github.com/Lithius0/EchoImGui.git or save the source into a folder and use ["Install package from disk"](https://docs.unity3d.com/Manual/upm-ui-local.html) in the Package Manager.
+
 ### URP:
-1. Add either the `ImGuiMeshRenderer` or `ImGuiProceduralRenderer` Renderer Feature to your Renderer (there are functionally equivalent). If you've just created a URP project, it should be called "PC_Renderer" or something to that effect.
+1. Add either the `ImGuiMeshRenderer` or `ImGuiProceduralRenderer` Renderer Feature to your Renderer. If you've just created a URP project, it should be called "PC_Renderer" or something to that effect. The mesh renderer and procedural renderer are functionally identical.
 1. Make sure the Material field in the Renderer Feature isn't empty. If you're using a custom shader assign a custom material. Otherwise, there are default materials in the EchoImGui/Resources tab. 
 
 Usage
 -------
-- [Add package](https://docs.unity3d.com/Manual/upm-ui-giturl.html) from git URL: https://github.com/Lithius0/EchoImGui.git or save the source into a folder and use "Install package from disk" in the Package Manager.
 - Add `ImGuiController` component to all scenes where you want the GUI to be visible.
 - (Optional) Add `DemoWindow` component for a demo of what Dear ImGui has to offer.
 - (Optional) Set `Platform Type` to `Input System` if you're using the new [input system](https://docs.unity3d.com/Packages/com.unity.inputsystem@1.0/manual/index.html)
