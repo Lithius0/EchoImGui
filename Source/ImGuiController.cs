@@ -8,11 +8,19 @@ using UnityEngine;
 
 namespace EchoImGui
 {
+    /// <summary>
+    /// This class handles the context and runs the main update loop for Dear ImGui.
+    /// It is independent of the rendering loop.
+    /// </summary>
     public class ImGuiController : MonoBehaviour
     {
         public static ImGuiController Instance => _instance;
         private static ImGuiController _instance;
-        public static bool Active => ImGui.GetCurrentContext() != IntPtr.Zero;
+
+        /// <summary>
+        /// If true, Dear ImGui has been initialized and is ready to go.
+        /// </summary>
+        public static bool Active => _instance != null && ImGui.GetCurrentContext() != IntPtr.Zero;
 
         public static event Action OnLayout;
 
@@ -111,7 +119,9 @@ namespace EchoImGui
 
         private void OnEnable()
         {
-            // ImGuiController sometimes fails to shutdown properly. 
+            // ImGuiController sometimes fails to shutdown properly.
+            // This happens in the editor if ImGui is running and Unity reloads the script (i.e. you've hit save while in play mode.)
+            // It will crash the editor.
             if (ImGui.GetCurrentContext() != IntPtr.Zero || ImPlotNET.ImPlot.GetCurrentContext() != IntPtr.Zero)
             {
                 OnDisable();
@@ -119,6 +129,8 @@ namespace EchoImGui
 
             var imGuiContext = ImGui.CreateContext();
             var imPlotContext = ImPlotNET.ImPlot.CreateContext();
+            // This is needed because Dear ImGui and ImPlot are in separate dlls and do not share globals.
+            // Might be worth having a single dll at some point the dll boundary causes a lot of issues.
             ImPlotNET.ImPlot.SetImGuiContext(imGuiContext);
 
             ImGuiIOPtr io = ImGui.GetIO();
