@@ -123,6 +123,9 @@ namespace EchoImGui
 
             ImGuiIOPtr io = ImGui.GetIO();
 
+            // Supports ImDrawCmd::VtxOffset to output large meshes while still using 16-bits indices.
+            io.BackendFlags |= ImGuiBackendFlags.RendererHasVtxOffset;
+
             textureManager = new TextureManager();
             textureManager.BuildFontAtlas(io, fontAtlasConfiguration, fontCustomInitializer);
             textureManager.Initialize(io);
