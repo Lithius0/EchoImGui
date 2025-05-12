@@ -12,6 +12,8 @@ namespace EchoImGui
     {
         public static ImGuiController Instance => _instance;
         private static ImGuiController _instance;
+        public static bool Active => ImGui.GetCurrentContext() != IntPtr.Zero;
+
         public static event Action OnLayout;
 
         [SerializeField]
@@ -68,7 +70,6 @@ namespace EchoImGui
             if (_instance == null)
             {
                 _instance = this;
-                Setup();
             }
             else
             {
@@ -82,7 +83,6 @@ namespace EchoImGui
             if (_instance == this)
             {
                 _instance = null;
-                Shutdown();
             }
         }
 
@@ -111,8 +111,14 @@ namespace EchoImGui
             }
         }
 
-        private void Setup()
+        private void OnEnable()
         {
+            // ImGuiController sometimes fails to shutdown properly. 
+            if (Active)
+            {
+                OnDisable();
+            }
+
             var imGuiContext = ImGui.CreateContext();
             var imPlotContext = ImPlotNET.ImPlot.CreateContext();
             ImPlotNET.ImPlot.SetImGuiContext(imGuiContext);
@@ -130,7 +136,7 @@ namespace EchoImGui
             SetPlatform(platform, io);
         }
 
-        private void Shutdown()
+        private void OnDisable()
         {
             ImGui.DestroyContext();
             ImPlotNET.ImPlot.DestroyContext();

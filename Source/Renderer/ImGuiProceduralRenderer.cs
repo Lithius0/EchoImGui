@@ -181,7 +181,7 @@ namespace EchoImGui.Renderer
         // This method is called when setting up the renderer once per-camera.
         public override void AddRenderPasses(ScriptableRenderer renderer, ref RenderingData renderingData)
         {
-            if (ImGuiController.Instance == null)
+            if (!ImGuiController.Active)
                 return;
 
             var drawData = ImGui.GetDrawData();
