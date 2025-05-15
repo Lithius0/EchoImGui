@@ -150,10 +150,10 @@ namespace EchoImGui
         // Color sent with TexCoord1 semantics because otherwise Color attribute would be reordered to come before UVs.
         private static readonly VertexAttributeDescriptor[] _vertexAttributes = new[]
         {
-        new VertexAttributeDescriptor(VertexAttribute.Position , VertexAttributeFormat.Float32, 2), // Position.
-		new VertexAttributeDescriptor(VertexAttribute.TexCoord0, VertexAttributeFormat.Float32, 2), // UV.
-		new VertexAttributeDescriptor(VertexAttribute.TexCoord1, VertexAttributeFormat.UInt32 , 1), // Color.
-	};
+            new VertexAttributeDescriptor(VertexAttribute.Position , VertexAttributeFormat.Float32, 2), // Position.
+		    new VertexAttributeDescriptor(VertexAttribute.TexCoord0, VertexAttributeFormat.Float32, 2), // UV.
+		    new VertexAttributeDescriptor(VertexAttribute.TexCoord1, VertexAttributeFormat.UInt32 , 1), // Color.
+	    };
 
         /// <inheritdoc/>
         public override void Create()
