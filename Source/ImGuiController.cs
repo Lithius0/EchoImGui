@@ -101,7 +101,11 @@ namespace EchoImGui
             Constants.PrepareFrameMarker.Begin(this);
             textureManager.PrepareFrame(io);
             _platform.PrepareFrame(io);
+
+            // Time.unscaledDeltaTime can be 0 in rare occasions. For example, when using the Frame Debugger.
+            io.DeltaTime = Mathf.Max(Time.unscaledDeltaTime, 0.001f);
             io.DisplaySize = new Vector2(Screen.width, Screen.height);
+
             ImGui.NewFrame();
             Constants.PrepareFrameMarker.End();
 
