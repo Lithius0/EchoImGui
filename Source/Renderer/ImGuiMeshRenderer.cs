@@ -127,7 +127,7 @@ namespace EchoImGui
         [SerializeField]
         private RenderPassEvent injectionPoint = RenderPassEvent.AfterRendering;
 
-        [Tooltip("Material used to render Dear ImGui. Use a material using the DearImGui/Procedural shader.")]
+        [Tooltip("Material used to render Dear ImGui. Use a material using the DearImGui/Mesh shader.")]
         [SerializeField]
         private Material material;
 
