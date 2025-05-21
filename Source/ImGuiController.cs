@@ -123,7 +123,12 @@ namespace EchoImGui
             }
             finally
             {
+                // C++ asserts can't be caught in C# and will crash the editor. 
+                io.ConfigErrorRecoveryEnableAssert = false;
                 ImGui.Render();
+                // Turn off asserts only for user code.
+                // For EchoImGui's code, fail fast so it can be fixed.
+                io.ConfigErrorRecoveryEnableAssert = true;
                 Constants.LayoutMarker.End();
             }
         }
@@ -141,6 +146,10 @@ namespace EchoImGui
             // Supports ImDrawCmd::VtxOffset to output large meshes while still using 16-bits indices.
             io.BackendFlags |= ImGuiBackendFlags.RendererHasVtxOffset;
 
+            // C++ exceptions will crash the editor and may cause user to lose unsaved changes.
+            // Try to have some elegant recovery so that things don't just break.
+            io.ConfigErrorRecovery = true;
+            
             textureManager = new TextureManager();
             textureManager.BuildFontAtlas(io, fontAtlasConfiguration, fontCustomInitializer);
             textureManager.Initialize(io);
@@ -154,8 +163,8 @@ namespace EchoImGui
 
         private void OnDisable()
         {
-            // It's not guaranteed that OnDisable will be called after OnEnable.
-            // If the object is destroyed before it is even enabled this is to prevent a hard crash from ImGui destroying a null pointer.
+            // It's not guaranteed that OnDisable will be called after OnEnable e.g. if the object is destroyed before it is even enabled.
+            // The IntPtr.Zero checks prevent a hard crash from ImGui destroying a null pointer.
             if (imGuiContext != IntPtr.Zero)
             {
                 ImGui.DestroyContext(imGuiContext);
