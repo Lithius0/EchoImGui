@@ -63,8 +63,6 @@ namespace EchoImGui.Platform
 		{
 			Assert.IsTrue(io.Fonts.IsBuilt(), "Font atlas not built! Generally built by the renderer. Missing call to renderer NewFrame() function?");
 
-			io.DeltaTime = Time.unscaledDeltaTime;
-
 			if (_iniSettings != null && io.WantSaveIniSettings)
 			{
 				_iniSettings.Save(ImGui.SaveIniSettingsToMemory());

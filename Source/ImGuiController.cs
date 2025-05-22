@@ -5,6 +5,7 @@ using EchoImGui.Events;
 using EchoImGui.Platform;
 using EchoImGui.Texture;
 using UnityEngine;
+using ImPlotNET;
 
 namespace EchoImGui
 {
@@ -73,6 +74,9 @@ namespace EchoImGui
         internal TextureManager TextureManager => textureManager;
         private TextureManager textureManager;
 
+        private IntPtr imGuiContext;
+        private IntPtr imPlotContext;
+
         private void Awake()
         {
             if (_instance == null)
@@ -82,7 +86,7 @@ namespace EchoImGui
             else
             {
                 Debug.LogWarning("Duplicate ImGuiController objects!");
-                Destroy(gameObject);
+                Destroy(this);
             }
         }
 
@@ -96,12 +100,19 @@ namespace EchoImGui
 
         private void Update()
         {
+            ImGui.SetCurrentContext(imGuiContext);
+            ImPlot.SetCurrentContext(imPlotContext);
+
             ImGuiIOPtr io = ImGui.GetIO();
 
             Constants.PrepareFrameMarker.Begin(this);
             textureManager.PrepareFrame(io);
             _platform.PrepareFrame(io);
+
+            // Time.unscaledDeltaTime can be 0 in rare occasions. For example, when using the Frame Debugger.
+            io.DeltaTime = Mathf.Max(Time.unscaledDeltaTime, 0.001f);
             io.DisplaySize = new Vector2(Screen.width, Screen.height);
+
             ImGui.NewFrame();
             Constants.PrepareFrameMarker.End();
 
@@ -112,32 +123,33 @@ namespace EchoImGui
             }
             finally
             {
+                // C++ asserts can't be caught in C# and will crash the editor. 
+                io.ConfigErrorRecoveryEnableAssert = false;
                 ImGui.Render();
+                // Turn off asserts only for user code.
+                // For EchoImGui's code, fail fast so it can be fixed.
+                io.ConfigErrorRecoveryEnableAssert = true;
                 Constants.LayoutMarker.End();
             }
         }
 
         private void OnEnable()
         {
-            // ImGuiController sometimes fails to shutdown properly.
-            // This happens in the editor if ImGui is running and Unity reloads the script (i.e. you've hit save while in play mode.)
-            // It will crash the editor.
-            if (ImGui.GetCurrentContext() != IntPtr.Zero || ImPlotNET.ImPlot.GetCurrentContext() != IntPtr.Zero)
-            {
-                OnDisable();
-            }
-
-            var imGuiContext = ImGui.CreateContext();
-            var imPlotContext = ImPlotNET.ImPlot.CreateContext();
+            imGuiContext = ImGui.CreateContext();
+            imPlotContext = ImPlot.CreateContext();
             // This is needed because Dear ImGui and ImPlot are in separate dlls and do not share globals.
             // Might be worth having a single dll at some point the dll boundary causes a lot of issues.
-            ImPlotNET.ImPlot.SetImGuiContext(imGuiContext);
+            ImPlot.SetImGuiContext(imGuiContext);
 
             ImGuiIOPtr io = ImGui.GetIO();
 
             // Supports ImDrawCmd::VtxOffset to output large meshes while still using 16-bits indices.
             io.BackendFlags |= ImGuiBackendFlags.RendererHasVtxOffset;
 
+            // C++ exceptions will crash the editor and may cause user to lose unsaved changes.
+            // Try to have some elegant recovery so that things don't just break.
+            io.ConfigErrorRecovery = true;
+            
             textureManager = new TextureManager();
             textureManager.BuildFontAtlas(io, fontAtlasConfiguration, fontCustomInitializer);
             textureManager.Initialize(io);
@@ -151,9 +163,17 @@ namespace EchoImGui
 
         private void OnDisable()
         {
-            ImGui.DestroyContext();
-            ImPlotNET.ImPlot.DestroyContext();
-            textureManager.Shutdown();
+            // It's not guaranteed that OnDisable will be called after OnEnable e.g. if the object is destroyed before it is even enabled.
+            // The IntPtr.Zero checks prevent a hard crash from ImGui destroying a null pointer.
+            if (imGuiContext != IntPtr.Zero)
+            {
+                ImGui.DestroyContext(imGuiContext);
+                textureManager.Shutdown();
+            }
+            if (imPlotContext != IntPtr.Zero)
+            {
+                ImPlot.DestroyContext(imPlotContext);
+            }
         }
 
         private void SetPlatform(IPlatform platform, ImGuiIOPtr io)

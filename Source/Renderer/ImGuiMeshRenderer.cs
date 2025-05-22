@@ -124,7 +124,10 @@ namespace EchoImGui
             }
         }
 
-        [Tooltip("Material used to render Dear ImGui. Use a material using the DearImGui/Procedural shader.")]
+        [SerializeField]
+        private RenderPassEvent injectionPoint = RenderPassEvent.AfterRenderingPostProcessing;
+
+        [Tooltip("Material used to render Dear ImGui. Use a material using the DearImGui/Mesh shader.")]
         [SerializeField]
         private Material material;
 
@@ -147,10 +150,10 @@ namespace EchoImGui
         // Color sent with TexCoord1 semantics because otherwise Color attribute would be reordered to come before UVs.
         private static readonly VertexAttributeDescriptor[] _vertexAttributes = new[]
         {
-        new VertexAttributeDescriptor(VertexAttribute.Position , VertexAttributeFormat.Float32, 2), // Position.
-		new VertexAttributeDescriptor(VertexAttribute.TexCoord0, VertexAttributeFormat.Float32, 2), // UV.
-		new VertexAttributeDescriptor(VertexAttribute.TexCoord1, VertexAttributeFormat.UInt32 , 1), // Color.
-	};
+            new VertexAttributeDescriptor(VertexAttribute.Position , VertexAttributeFormat.Float32, 2), // Position.
+		    new VertexAttributeDescriptor(VertexAttribute.TexCoord0, VertexAttributeFormat.Float32, 2), // UV.
+		    new VertexAttributeDescriptor(VertexAttribute.TexCoord1, VertexAttributeFormat.UInt32 , 1), // Color.
+	    };
 
         /// <inheritdoc/>
         public override void Create()
@@ -169,7 +172,7 @@ namespace EchoImGui
                 mesh = mesh,
                 material = material,
                 materialPropertyBlock = new MaterialPropertyBlock(),
-                renderPassEvent = RenderPassEvent.AfterRenderingPostProcessing,
+                renderPassEvent = injectionPoint,
                 textureId = Shader.PropertyToID(textureProperty),
             };
         }

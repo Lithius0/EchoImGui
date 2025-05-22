@@ -1,11 +1,9 @@
 {
   "name": "net.lithius.echoimgui",
   "displayName": "EchoImGui",
-  "version": "0.2.0",
+  "version": "0.2.1",
   "description": "A Unity wrapper for Dear ImGui",
   "unity": "6000.0",
-  "dependencies": {
-  },
   "keywords": [
     "dear",
     "imgui",
