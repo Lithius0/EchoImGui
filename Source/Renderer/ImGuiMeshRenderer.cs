@@ -125,7 +125,7 @@ namespace EchoImGui
         }
 
         [SerializeField]
-        private RenderPassEvent injectionPoint = RenderPassEvent.AfterRendering;
+        private RenderPassEvent injectionPoint = RenderPassEvent.AfterRenderingPostProcessing;
 
         [Tooltip("Material used to render Dear ImGui. Use a material using the DearImGui/Mesh shader.")]
         [SerializeField]

@@ -147,7 +147,10 @@ namespace EchoImGui.Renderer
             }
         }
 
-        [Tooltip("Material used to render Dear ImGui. Use a material using the DearImGui/Mesh shader.")]
+        [SerializeField]
+        private RenderPassEvent injectionPoint = RenderPassEvent.AfterRenderingPostProcessing;
+
+        [Tooltip("Material used to render Dear ImGui. Use a material using the DearImGui/Procedural shader.")]
         [SerializeField]
         private Material material;
 
@@ -172,7 +175,7 @@ namespace EchoImGui.Renderer
             {
                 material = material,
                 materialPropertyBlock = new MaterialPropertyBlock(),
-                renderPassEvent = RenderPassEvent.AfterRenderingPostProcessing,
+                renderPassEvent = injectionPoint,
                 textureId = Shader.PropertyToID(textureProperty),
                 verticesId = Shader.PropertyToID(verticesProperty),
                 baseVertexId = Shader.PropertyToID(baseVertexProperty),
