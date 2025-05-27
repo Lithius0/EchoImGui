@@ -136,6 +136,12 @@ namespace EchoImGui
             catch (Exception e)
             {
                 Debug.LogException(e);
+
+                // New frame has a sanity check that will bring up a popup in Unity and force the user to restart without saving.
+                // Just stopping the Render call isn't enough.
+                // Destroy the context to start fresh and to allow user to save data.
+                Debug.LogError("Exception thrown in layout! Disabling ImGuiController.");
+                enabled = false;
             }
         }
 
