@@ -120,26 +120,39 @@ namespace EchoImGui
             try
             {
                 OnLayout?.Invoke();
-            }
-            finally
-            {
+                Constants.LayoutMarker.End();
+
                 // C++ asserts can't be caught in C# and will crash the editor. 
                 io.ConfigErrorRecoveryEnableAssert = false;
+
+                // Only try rendering if no errors happen in OnLayout.
+                // If an exception is thrown there, it's very likely the program is in an invalid state.
                 ImGui.Render();
+
                 // Turn off asserts only for user code.
                 // For EchoImGui's code, fail fast so it can be fixed.
                 io.ConfigErrorRecoveryEnableAssert = true;
-                Constants.LayoutMarker.End();
+            }
+            catch (Exception e)
+            {
+                Debug.LogException(e);
+
+                // New frame has a sanity check that will bring up a popup in Unity and force the user to restart without saving.
+                // Just stopping the Render call isn't enough.
+                // Destroy the context to start fresh and to allow user to save data.
+                Debug.LogError("Exception thrown in layout! Disabling ImGuiController.");
+                enabled = false;
             }
         }
 
         private void OnEnable()
         {
             imGuiContext = ImGui.CreateContext();
-            imPlotContext = ImPlot.CreateContext();
             // This is needed because Dear ImGui and ImPlot are in separate dlls and do not share globals.
             // Might be worth having a single dll at some point the dll boundary causes a lot of issues.
             ImPlot.SetImGuiContext(imGuiContext);
+
+            imPlotContext = ImPlot.CreateContext();
 
             ImGuiIOPtr io = ImGui.GetIO();
 
